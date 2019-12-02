@@ -3,6 +3,9 @@ const app = express()
 const port = process.env.PORT || 3000;
 var SpotifyWebApi = require('spotify-web-api-node');
 
+app.use(express.static(__dirname + '/web'));
+
+
 var client_id = "15db5a5f73854fbaa5d4da1d7cb15123"
 var client_secret = "66ff80f04fab4d45800f5e304466e8ff"
 

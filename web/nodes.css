@@ -1,0 +1,84 @@
+
+	body{
+		background-color: #191414;
+		font-family: 'Nunito', sans-serif;
+
+	}
+	
+#mynetwork{
+	width:100vw;
+	height:100vh;
+}
+
+#previewPlayer{
+
+	border:2px solid green;
+}
+input:focus {outline: none; }
+
+#search{
+	z-index: 100;
+	width:40vw;
+	height:70vh;
+	position: absolute;
+	/* margin-left:30vw; */
+	/* top:15vh; */
+	/* background:#191414; */
+	border:none;
+	font-family: 'Nunito', sans-serif;
+
+
+}
+#searchBar{
+	/* margin:auto; */
+	width:50vw;
+	/* margin-left:5vw; */
+	top:5vh;
+	left:5vh;
+	position: absolute;
+	height:5vh;
+	border: none;
+	font-family: 'Nunito', sans-serif;
+	font-size: 15pt;
+	padding-left:2vw;
+	vertical-align: bottom;
+	background-color: #191414;
+	border-bottom: 2px solid #1DB954;
+	color:white;
+
+}
+
+#searchResults{
+	margin-top: 12vh;
+	margin-left:5vh;
+
+}
+.searchResult{
+color:white;
+/* border:1px solid white; */
+cursor: pointer;
+left:5vh;
+
+
+}
+.searchResult:hover{
+	background-color: #1DB954;
+}
+.result_artist{
+	font-size:15pt;
+	display: inline;
+	font-weight: lighter;
+}
+.result_genre{
+	/* margin-left:100; */
+	/* position: absolute; */
+	/* right:0; */
+	text-align: right;
+	vertical-align: middle;
+	font-size:9pt;	
+	display: inline;
+	padding-left: 2vw;
+	/* padding-top: 5vh; */
+	/* width:100%; */
+	
+}
