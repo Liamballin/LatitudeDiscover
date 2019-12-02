@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+        crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="index.css" type="css">
+
+</head>
+<style>
+body{
+    background-color: black;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#header{
+    width:100vw;
+    height:20vh;
+    left:-1vw;
+    top:-1vh;
+
+    background-color: darkgrey;
+}
+#map{
+    
+}
+
+
+.card{
+    width:10vw;
+    height:30vh;
+    border:1.5px solid white;
+    border-radius: 0.5vw;
+    padding: 2vw;
+    margin: 2vw;
+    display: inline;
+}
+.card_img{
+    width:5vw;
+    height: auto;
+    display: inherit;
+}
+.card_name{
+    color:  white;
+    font-size: 10pt;
+    display: inherit;
+}
+.row{
+    display: block;
+    border: 2px solid white;
+}
+
+
+</style>
+<script>
+
+function loaded(){
+    var a = loadArtist("43ZHCT0cAZBISjO8DG9PnE")
+}
+
+function loadArtist(id){
+    // while(document.getElementById('map').childNodes.length > 0){
+    //     document.getElementById("map").childNodes.removeChild(0)
+    // }
+    // document.getElementById("map").innerHTML = ""
+    $.ajax({
+        url:"/getArtist/"+id,
+        success:function(data){
+            render(data)
+        }
+    })
+}
+
+function render(data){
+    
+    console.log(data)
+    console.log("rendering..")
+    var row = document.createElement("div");
+    row.className="row";
+
+    for(i = 0; i < data.artists.length;i++){
+        console.log("Creating card..")
+        createCard(data.artists[i], row)
+    }
+    document.getElementById("map").appendChild(row)
+    window.scrollTo(0,document.body.scrollHeight);
+
+}
+
+
+function createCard(data, row){
+    var name = data.name;
+    var pop = data.popularity;
+    var id = data.id;
+    var imgUrl = data.images[2].url;
+
+    var card = document.createElement("div");
+    card.className = "card";
+
+    var img = document.createElement("img");
+    img.src = imgUrl;
+    img.className = "card_img"
+
+    var nameTag = document.createTextNode(name);
+
+    var nameTitle = document.createElement("h1");
+    nameTitle.className = "card_name"
+    nameTitle.appendChild(nameTag)
+
+    card.onclick = function(){
+        loadArtist(id)
+    }
+
+    card.appendChild(img);
+    card.appendChild(nameTitle)
+
+    // var row = document.createElement("div");
+    // row.className = "row";
+    row.appendChild(card)
+
+
+    // document.getElementById("map").appendChild(card)
+}
+
+
+
+</script>
+<body onload="loaded()">
+    <div id="map">
+
+    </div>
+
+</body>
+</html>
