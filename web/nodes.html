@@ -7,9 +7,16 @@
 	src="https://code.jquery.com/jquery-3.4.1.min.js"
 	integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 	crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
 
 </head>
 <style>
+
+	body{
+		background-color: #191414;
+		font-family: 'Nunito', sans-serif;
+
+	}
 	
 #mynetwork{
 	width:100vw;
@@ -20,41 +27,64 @@
 
 	border:2px solid green;
 }
+input:focus {outline: none; }
+
 #search{
 	z-index: 100;
 	width:40vw;
 	height:70vh;
 	position: absolute;
-	margin-left:30vw;
-	top:15vh;
-	background: black;
+	/* margin-left:30vw; */
+	/* top:15vh; */
+	/* background:#191414; */
 	border:none;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: 'Nunito', sans-serif;
+
 
 }
 #searchBar{
-	margin:auto;
-	width:30vw;
-	margin-left:5vw;
+	/* margin:auto; */
+	width:50vw;
+	/* margin-left:5vw; */
 	top:5vh;
 	position: absolute;
 	height:5vh;
 	border: none;
+	font-family: 'Nunito', sans-serif;
+	font-size: 15pt;
+	padding-left:2vw;
+	vertical-align: bottom;
+	background-color: #191414;
+	border-bottom: 2px solid #1DB954;
+	color:white;
 
 }
+
 #searchResults{
 	margin-top: 12vh;
 }
 .searchResult{
 color:white;
-border:1px solid white;
+/* border:1px solid white; */
+cursor: pointer;
 
+}
+.searchResult:hover{
+	background-color: #1DB954;
 }
 .result_artist{
 	font-size:10pt;
+	display: inline;
 }
 .result_genre{
-	
+	/* margin-left:100; */
+	/* position: absolute; */
+	right:0;
+	text-align: right;
+	vertical-align: middle;
+	font-size:7pt;	
+	display: inline;
+	padding-left: 5vw;
 }
 </style>
 
@@ -92,14 +122,15 @@ function renderSearchResults(data){
 
 		var genreNode = document.createTextNode(list[i].genres[0])
 		var genre = document.createElement("h1");
-		genre.className = "result_genre"
 		genre.appendChild(genreNode)
+		genre.className = "result_genre"
+		
 		
 		
 		res.id = list[i].id;
 		res.className = "searchResult";
 		res.appendChild(name)
-		res.appendChild(genreNode)
+		res.appendChild(genre)
 		res.onclick = function(){
 			startMap(this.id)
 		}
@@ -184,14 +215,14 @@ function playPause(){
 
 
 <body onload="loaded()">
-	<div id="previewPlayer">
+	<!-- <div id="previewPlayer">
 		<h1 id="preview_artist"></h1>
 		<h2 id="preview_song"></h2>
 		<button id="playControl" onclick="playPause()">▶️</button>
-	</div>
+	</div> -->
 
 	<div id="search">
-		<input type="text" id="searchBar"/>
+		<input type="text" id="searchBar" placeholder="Search for an artist.."/>
 		<div id="searchResults"></div>
 	</div>
 	<div id="mynetwork"></div>

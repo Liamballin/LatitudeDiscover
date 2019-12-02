@@ -11,7 +11,9 @@ var spotifyApi = new SpotifyWebApi({
     clientSecret:"66ff80f04fab4d45800f5e304466e8ff"
     // redirectUri:"localhost/auth"
 })
-spotifyApi.setAccessToken('BQCktlDDAcfJVBdOOI6w44tlRnKMMMmhOtCgfjAQkWpDndpkMitL1K9nBIVE4AwwbiwU0GB8olrhKSC3KAj1JZ5QhmR1VhZF_qDkz3DWGBlsGg0z_FBqRlkXERzlttHVQy27CUNSEQCGkQ')
+spotifyApi
+  .clientCredentialsGrant()
+  .then(d => spotifyApi.setAccessToken(d.body.access_token));
 
 
 app.get("/getArtist/:id", (req,res)=>{
