@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = process.env.PORT || 3000;
 var SpotifyWebApi = require('spotify-web-api-node');
 
 var client_id = "15db5a5f73854fbaa5d4da1d7cb15123"
