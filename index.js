@@ -4,6 +4,7 @@ const port = process.env.PORT || 3000;
 var SpotifyWebApi = require('spotify-web-api-node');
 
 app.use(express.static(__dirname + '/web'));
+app.use(express.static(__dirname + '/web/assets'));
 
 
 var client_id = "15db5a5f73854fbaa5d4da1d7cb15123"
@@ -18,6 +19,17 @@ spotifyApi
   .clientCredentialsGrant()
   .then(d => spotifyApi.setAccessToken(d.body.access_token));
 
+app.get("/info/:id",(req,res)=>{
+    console.log("app.get received: "+req.params.id)
+    getArtistInfo(req.params.id).then(data=>{
+        res.send(data)
+    }).catch(err=>{
+        console.log(err)
+        console.log("ERROR GETTING ARTIST INFO")
+        console.log("INPUT: "+req.params.id)
+        res.send("ERROR GETTING ARTIST INFO")
+    })
+})
 
 app.get("/getArtist/:id", (req,res)=>{
     getArtist(req.params.id).then(data=>{
@@ -54,6 +66,17 @@ app.get("/", (req,res)=>{
 app.listen(port, ()=>{
     console.log("Listening on "+port)
 })
+
+function getArtistInfo(id){
+    return new Promise((resolve,reject)=>{
+        console.log("Getting info with id: "+id)
+        spotifyApi.getArtist(id).then(data=>{
+            resolve(data.body)
+        }, err=>{
+            reject(err)
+        })
+    })
+}
 
 function searchResults(query){
     return new Promise((resolve, reject)=>{

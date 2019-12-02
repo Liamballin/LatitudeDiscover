@@ -1,25 +1,99 @@
+body{
+    background-color: #191414;
+    font-family: 'Nunito', sans-serif;
+    overflow: hidden;
 
-	body{
-		background-color: #191414;
-		font-family: 'Nunito', sans-serif;
+}
 
-	}
+::selection {
+    background: #19141486; /* WebKit/Blink Browsers */
+  }
+  ::-moz-selection {
+    background: #19141486; /* Gecko Browsers */
+  }
 	
 #mynetwork{
-	width:100vw;
-	height:100vh;
+	width:110vw;
+    height:110vh;
+    position: absolute;
+    top:-5vw;
+    left:-5vw;
 }
 
 #previewPlayer{
-
-	border:2px solid green;
+    z-index: 10;
+    position: absolute;
+    bottom: 3vh;
+    height:10vh;
+    width:100vw;
+    color:#1DB954;
+    font-weight: lighter;
+    background-color: #19141486;
+    align-content: center;
+    /* opacity: 0.7; */
+    
 }
+#preview_artist{
+    font-weight: lighter;
+    display: inline;
+    padding-left: 7vh;
+    cursor: pointer;
+}
+#preview_song{
+    font-weight: lighter;
+    display: inline;
+    padding-left: 2vh;
+    cursor: pointer;
+}
+
+#previewInfo{
+    bottom: 10vh;
+    left:7vw;
+    position: absolute;
+}
+
+#playControl{
+display: inline;
+/* margin-bottom:-2vh; */
+
+height:6vh;
+width:6vh;
+/* padding-top:5vh; */
+
+border: 2px solid #1DB954;
+background-color: #191414;
+border-radius: 100px;
+cursor: pointer;
+margin:auto;
+
+
+}
+#playControl:focus{
+    outline: none;
+}
+#playSymbol{
+    color:#1DB954;
+
+    vertical-align: middle;
+    font-size: 4.3vh;
+    cursor: pointer;
+    bottom: 1.4vh;
+    position: absolute;
+    display: inline;
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
 input:focus {outline: none; }
+canvas:focus {outline: none; }
+cavnas{outline: none;}
 
 #search{
 	z-index: 100;
 	width:40vw;
-	height:70vh;
+	/* height:70vh; */
 	position: absolute;
 	/* margin-left:30vw; */
 	/* top:15vh; */
@@ -56,8 +130,10 @@ input:focus {outline: none; }
 .searchResult{
 color:white;
 /* border:1px solid white; */
+background-color: #191414;
 cursor: pointer;
 left:5vh;
+width: 50vw;
 
 
 }

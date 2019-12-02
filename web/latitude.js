@@ -1,16 +1,41 @@
+var rootArtist = {};
+//label (name-genre)
+//image
+//exploded = true;
+//genre
+//shape
+
 function loaded(){
-	// var a = loadArtist("43ZHCT0cAZBISjO8DG9PnE")
+    // var a = loadArtist("43ZHCT0cAZBISjO8DG9PnE")
+    document.getElementById("mynetwork").addEventListener("blur",()=>{
+        console.log("Lost focus ")
+    })
 	document.getElementById("searchBar").addEventListener('input', ()=>{
-		console.log("Typing..")
 		search(document.getElementById("searchBar").value)
 	})
 }
 
-function startMap(id){
-	$("#search").css({"opacity":"0","pointer-events":"none"})
-	var startId = id
-	var a = loadArtist(startId);
-	loadPreview(startId)
+function startMap(data){
+    document.getElementById("searchBar").value = data.name;
+    $("#searchResults").html("")
+    var startId = data.id
+    getArtistInfo(data.id).then(()=>{
+        loadArtist(startId);
+        loadPreview(startId)
+    })
+
+}
+
+function getArtistInfo(id){
+    return new Promise((resolve,reject)=>{
+        $.ajax({
+            url:"/info/"+id,
+            success:function(data){
+                createRoot(data)
+                resolve()
+            }
+        })
+    })
 }
 
 function renderSearchResults(data){
@@ -44,10 +69,22 @@ function renderSearchResults(data){
 			res.appendChild(genre)
 		}
 		res.onclick = function(){
-			startMap(this.id)
+			startMap({id:this.id,name:this.childNodes[0].innerHTML})
 		}
 		document.getElementById("searchResults").appendChild(res)
 	}
+}
+
+function createRoot(data){
+    var r = {};
+    r.label = data.name+"\n"+data.genres[0];
+    r.genre = data.genres[0];
+    r.image = data.images[0].url;
+    r.shape = "circularImage";
+    r.exploded = true;
+    r.id = 0;
+
+    rootArtist = r;
 }
 
 function search(query){
@@ -55,7 +92,7 @@ function search(query){
 	$.ajax({
 		url:"/search/"+query,
 		success:function(data){
-			console.log(data)
+			// console.log(data)
 			renderSearchResults(data)
 		}
 	})
@@ -93,32 +130,46 @@ var player;
 var playerState = "pause";
 
 function playPreview(data){
+    console.log(data)
 	var name = data.tracks[0].name;
 	var artist = data.tracks[0].artists[0].name;
 
 	$("#preview_artist").html(artist);
-	$("#preview_song").html(name);
+    $("#preview_song").html(name);
+    
+    document.getElementById("preview_artist").onclick=function(){
+        console.log("Clocked")
+        var win = window.open(data.tracks[0].external_urls.spotify, '_blank');
+        win.focus();
+    }
+    document.getElementById("preview_song").onclick=function(){
+        console.log("Clocked")
+        var win = window.open(data.tracks[0].external_urls.spotify, '_blank');
+        win.focus();
+    }
 
 
 	if(player != undefined){
 		player.pause()
 	}
-	console.log(data.tracks[0])
 	var url = (data.tracks[0].preview_url)
     player = new Audio(url);
-	player.play();
-	playerState = "play"
+	// player.play();
+    playerState = "pause"
+    playPause()
 }
 
 function playPause(){
 	if(playerState == "play"){
 		player.pause()
 		playerState = "pause";
-		$("#playControl").html("▶️")
+        // document.getElementById("playPauseImg").src = "assets/button_play.png";
+        $("#playSymbol").html("⏵")
 	}else{
 		player.play();
 		playerState = "play"
-		$("#playControl").html("⏸")
+        // document.getElementById("playPauseImg").src = "assets/button_pause.png";
+        $("#playSymbol").html("⏸")
 	}		
 
 }
