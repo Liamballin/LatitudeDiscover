@@ -20,6 +20,7 @@
 function loaded(){
 	// var a = loadArtist("43ZHCT0cAZBISjO8DG9PnE")
 	var a = loadArtist("7BImuj9nS6aLIZWOfZKfZW");
+	loadPreview("7BImuj9nS6aLIZWOfZKfZW")
 }
 
 function loadArtist(id){
@@ -31,6 +32,15 @@ function loadArtist(id){
     })
 }
 
+function loadPreview(id){
+	$.ajax({
+		url:"/preview/"+id,
+		success:function(data){
+			playPreview(data)
+		}
+	})
+}
+
 function loadNewArtist(id){
     $.ajax({
         url:"/getArtist/"+id,
@@ -38,6 +48,18 @@ function loadNewArtist(id){
             renderNew(data.artists)
         }
     })
+}
+
+var player;
+
+function playPreview(data){
+	if(player != undefined){
+		player.pause()
+	}
+	var url = (data.tracks[0].preview_url)
+    player = new Audio(url);
+    player.play();
+
 }
 </script>
 
@@ -141,6 +163,7 @@ function loadNewArtist(id){
 		var ids = properties.nodes;
 		var clickedNodes = nodes.get(ids);
 		console.log('clicked nodes:', clickedNodes);
+		loadPreview(clickedNodes[0].id)
 		if(!clickedNodes[0].exploded){
 			newRoot = clickedNodes[0].id;
 			loadNewArtist(clickedNodes[0].id)

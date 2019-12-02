@@ -11,7 +11,7 @@ var spotifyApi = new SpotifyWebApi({
     clientSecret:"66ff80f04fab4d45800f5e304466e8ff"
     // redirectUri:"localhost/auth"
 })
-spotifyApi.setAccessToken('BQBzkCU1IPgwMkXNP2uk9nIivBi-nu9u2TIUYJUL5Mt0hEEZXfKrx_ymou8sFynOdZs4HRL3ElyPlRC0Yq_Mn7BXSA3U8DqY4jIeYB6T8v1b-ZQZQy9kUjk-4bCoLJDr4kWadARlJ3et_A')
+spotifyApi.setAccessToken('BQB9xnmj8J4D5Oz1ZtthlU5oMYYqvnCGe-a_dh18PnmD0CBdnT_W1xxaW7egbsRFjwAM1fFjGUUR-o_VXBDScT2usbpq6-xoFbP83CN82X1Vf6qWpl4A3-va57HTxdP00mq4QZ7tWERvQg')
 
 
 app.get("/getArtist/:id", (req,res)=>{
@@ -19,9 +19,17 @@ app.get("/getArtist/:id", (req,res)=>{
         res.send(data)
     }).catch(error=>{
         console.log(error)
-        res.send("EROOR HOMIE")
+        res.send("ERROR GETTING ARTIST")
     })
-    
+})
+
+app.get("/preview/:id", (req,res)=>{
+    getPreview(req.params.id).then(data =>{
+        res.send(data)
+    }).catch(error=>{
+        console.log(error)
+        res.send("ERROR GETTING PREVIEW")
+    })
 })
 
 app.get("/new", (req,res)=>{
@@ -29,14 +37,22 @@ app.get("/new", (req,res)=>{
 })
 
 app.get("/", (req,res)=>{
-    res.sendFile(__dirname+"/web/index.html")
-    
-   
+    res.sendFile(__dirname+"/web/index.html") 
 })
 
 app.listen(port, ()=>{
     console.log("Listening on "+port)
 })
+
+function getPreview(id){
+    return new Promise((resolve,reject)=>{
+        spotifyApi.getArtistTopTracks(id, 'NZ').then(function(data) {
+            resolve(data.body);
+        }, function(err) {
+            reject(err);
+        });
+    })
+}
 
 function getArtist(id){
     return new Promise((resolve,reject)=>{
