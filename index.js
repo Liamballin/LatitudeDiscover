@@ -41,12 +41,9 @@ app.get("/search/:query", (req,res)=>{
     })
 })
 
-app.get("/new", (req,res)=>{
-    res.sendFile(__dirname+"/web/nodes.html")
-})
 
 app.get("/", (req,res)=>{
-    res.sendFile(__dirname+"/web/index.html") 
+    res.sendFile(__dirname+"/web/nodes.html")
 })
 
 app.listen(port, ()=>{
