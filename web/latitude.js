@@ -15,6 +15,17 @@ function loaded(){
 	})
 }
 
+function randomArtist(){
+    console.log("Getting random artist")
+    $.ajax({
+        url:"/random",
+        success:function(data){
+            console.log(data)
+            startMap(data)
+        }
+    })
+}
+
 function startMap(data){
     document.getElementById("searchBar").value = data.name;
     $("#searchResults").html("")
@@ -22,7 +33,9 @@ function startMap(data){
     getArtistInfo(data.id).then(()=>{
         loadArtist(startId);
         loadPreview(startId)
+
     })
+
 
 }
 
@@ -33,6 +46,18 @@ function getArtistInfo(id){
             success:function(data){
                 createRoot(data)
                 resolve()
+            }
+        })
+    })
+}
+
+function getInfoPaneData(id){
+    return new Promise((resolve,reject)=>{
+        $.ajax({
+            url:"/info/"+id,
+            success: function(data){
+                renderInfoPane(data);
+                resolve();
             }
         })
     })
@@ -77,14 +102,34 @@ function renderSearchResults(data){
 
 function createRoot(data){
     var r = {};
-    r.label = data.name+"\n"+data.genres[0];
-    r.genre = data.genres[0];
-    r.image = data.images[0].url;
+    var genre;
+    if(data.genres[0] != undefined){
+        genre = data.genres[0]
+    }else{
+        genre="";
+    }
+
+    r.label = data.name+"\n"+genre;
+
+    r.genre = genre;
+    if(data.images[0] != undefined){
+        r.image = data.images[0].url;
+    }else{
+        r.image ="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRyG1pllAcOZLO2j7zgS9IceYndTwS-BKpi7Gwam95nowy_a7sl"
+    }
     r.shape = "circularImage";
     r.exploded = true;
     r.id = 0;
 
     rootArtist = r;
+}
+
+function renderInfoPane(data){
+    console.log(data)
+    console.log("Rendering info pane")
+    document.getElementById("info_header").style.backgroundImage = "url("+data.images[0].url+")";
+    $("#info_title").html(data.name);
+    $("#info_genre").html((data.genres))
 }
 
 function search(query){
@@ -126,11 +171,25 @@ function loadNewArtist(id){
     })
 }
 
+function explodeNode(id){
+    loadNewArtist(id) // render graph
+    getInfoPaneData(id) //get info for infoPane
+}
+
 var player;
 var playerState = "pause";
+var intervals = [];
+
+function playerManage(int){
+    if(player != undefined){
+        
+       
+    }
+}
 
 function playPreview(data){
-    console.log(data)
+    // console.log(data)
+    if(data.tracks[0] != undefined){
 	var name = data.tracks[0].name;
 	var artist = data.tracks[0].artists[0].name;
 
@@ -157,6 +216,10 @@ function playPreview(data){
 	// player.play();
     playerState = "pause"
     playPause()
+    }else{
+        playerState = "play";
+        playPause()
+    }
 }
 
 function playPause(){

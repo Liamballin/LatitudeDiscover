@@ -49,6 +49,16 @@ app.get("/preview/:id", (req,res)=>{
     })
 })
 
+app.get("/random",(req,res)=>{
+    getRandomArtist().then(data=>{
+        res.send(data)
+    }).catch(err=>{
+        console.log("ERROR")
+        console.log(err)
+        res.send("ERROR")
+    })
+})
+
 app.get("/search/:query", (req,res)=>{
     searchResults(req.params.query).then(data=>{
         res.send(data);
@@ -88,6 +98,25 @@ function searchResults(query){
     })
 }
 
+function getRandomArtist(){
+    return new Promise((resolve, reject)=>{
+
+        var search = getRandomSearch()
+        spotifyApi.searchArtists(search).then(function(allData) {
+            console.log(allData)
+            var options = {limit:1,offset:getRandomInt(allData.body.artists.total)}
+            console.log(options)
+            spotifyApi.searchArtists(search,options).then(art => {
+                resolve(art.body.artists.items[0])
+            }, err=>{
+                reject(err)
+            })
+        }, function(err) {
+            reject(err);
+        });
+    })
+}
+
 function getPreview(id){
     return new Promise((resolve,reject)=>{
         spotifyApi.getArtistTopTracks(id, 'NZ').then(function(data) {
@@ -112,3 +141,27 @@ function getArtist(id){
     })
 }
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  function getRandomSearch() {
+    // A list of all characters that can be chosen.
+    const characters = 'abcdefghijklmnopqrstuvwxyz';
+    
+    // Gets a random character from the characters string.
+    const randomCharacter = characters.charAt(Math.floor(Math.random() * characters.length));
+    let randomSearch = '';
+  
+    // Places the wildcard character at the beginning, or both beginning and end, randomly.
+    switch (Math.round(Math.random())) {
+      case 0:
+        randomSearch = randomCharacter + '%';
+        break;
+      case 1:
+        randomSearch = '%' + randomCharacter + '%';
+        break;
+    }
+  
+    return randomSearch;
+  }

@@ -3,24 +3,55 @@ var network;
 	var edges;
 	var newRoot;
 
+	var idList = [];
+
+	function idInData(id){
+		// var d = network.DataSet.get();
+		// console.log(d);
+		var found = false;
+		for(i = 0; i < idList.length;i++){
+			if(id === idList[i]){
+				console.log("Found in dataaset")
+				found = true;
+			}
+		}
+		console.log("Not found; return false")
+		return found;
+	}
+
 	function renderNew(data){
 		var parse = []
 		var edg = []
 		for(i = 0; i < data.length;i++){
-			var newOb = {};
-			newOb.id = data[i].id;
-			newOb.label = data[i].name+"\n"+data[i].genres[0];
-            if(data[i].genres.length>0){
-                newOb.group = data[i].genres[0];
-            }
-			if(data[i].images[0] != undefined){
-				newOb.image = data[i].images[0].url;
-			}else{
-				newOb.image ="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRyG1pllAcOZLO2j7zgS9IceYndTwS-BKpi7Gwam95nowy_a7sl"
-			}
-			newOb.shape = "circularImage"
-			parse.push(newOb)
 
+
+
+
+			if(!idList.includes(data[i].id)){
+				console.log(data[i])
+				var newOb = {};
+				newOb.id = data[i].id;
+				idList.push(data[i].id)
+				var genre;
+				if(data[i].genres[0] != undefined){
+					genre = data[i].genres[0]
+				}else{
+					genre="";
+				}
+				newOb.label = data[i].name+"\n"+genre;
+				
+					newOb.group = genre;
+				
+				if(data[i].images[0] != undefined){
+					newOb.image = data[i].images[0].url;
+				}else{
+					newOb.image ="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRyG1pllAcOZLO2j7zgS9IceYndTwS-BKpi7Gwam95nowy_a7sl"
+				}
+				newOb.shape = "circularImage"
+				parse.push(newOb)
+			}else{
+				console.log("Already added!")
+			}
 			var link = {from:newRoot, to: data[i].id}
 			edg.push(link)
 		}
@@ -38,10 +69,14 @@ var network;
 			var newOb = {};
 			var newOb = {};
 			newOb.id = data[i].id;
-            newOb.label = data[i].name+"\n"+data[i].genres[0];
-            if(data[i].genres.length>0){
-                newOb.group = data[i].genres[0];
-            }
+			idList.push(data[i].id)
+			var genre;
+			if(data[i].genres[0] != undefined){
+				genre = data[i].genres[0]
+			}else{
+				genre="";
+			}
+			newOb.label = data[i].name+"\n"+genre;
 			newOb.exploded = false;
 			if(data[i].images[0] != undefined){
 				newOb.image = data[i].images[0].url;
@@ -73,7 +108,8 @@ var network;
                 font:{
                     color:"#FFFFFF",
                     face:"Nunito",
-                    align:"left"
+                    align:"left",
+                    multi:true
                 }
             },
  
@@ -92,12 +128,13 @@ var network;
             loadPreview(clickedNodes[0].id)
             if(!clickedNodes[0].exploded){
                 newRoot = clickedNodes[0].id;
-                loadNewArtist(clickedNodes[0].id)
+                explodeNode(clickedNodes[0].id)
                 // clickedNodes[0].exploded = true;
                 nodes.update({id: clickedNodes[0].id, exploded: true});
 
             }else{
                 // console.log("Already exploded")
+                getInfoPaneData(clickedNodes[0].id)
             }
         }
 
