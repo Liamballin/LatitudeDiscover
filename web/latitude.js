@@ -16,11 +16,11 @@ function loaded(){
 }
 
 function randomArtist(){
-    console.log("Getting random artist")
+    // console.log("Getting random artist")
     $.ajax({
         url:"/random",
         success:function(data){
-            console.log(data)
+            // console.log(data)
             startMap(data)
         }
     })
@@ -51,17 +51,17 @@ function getArtistInfo(id){
     })
 }
 
-function getInfoPaneData(id){
-    return new Promise((resolve,reject)=>{
-        $.ajax({
-            url:"/info/"+id,
-            success: function(data){
-                renderInfoPane(data);
-                resolve();
-            }
-        })
-    })
-}
+// function getInfoPaneData(id){
+//     return new Promise((resolve,reject)=>{
+//         $.ajax({
+//             url:"/info/"+id,
+//             success: function(data){
+//                 renderInfoPane(data);
+//                 resolve();
+//             }
+//         })
+//     })
+// }
 
 function renderSearchResults(data){
 	$("#searchResults").html("");
@@ -124,13 +124,13 @@ function createRoot(data){
     rootArtist = r;
 }
 
-function renderInfoPane(data){
-    console.log(data)
-    console.log("Rendering info pane")
-    document.getElementById("info_header").style.backgroundImage = "url("+data.images[0].url+")";
-    $("#info_title").html(data.name);
-    $("#info_genre").html((data.genres))
-}
+// function renderInfoPane(data){
+//     console.log(data)
+//     console.log("Rendering info pane")
+//     document.getElementById("info_header").style.backgroundImage = "url("+data.images[0].url+")";
+//     $("#info_title").html(data.name);
+//     $("#info_genre").html((data.genres))
+// }
 
 function search(query){
 	if(query.length > 0){
@@ -173,7 +173,7 @@ function loadNewArtist(id){
 
 function explodeNode(id){
     loadNewArtist(id) // render graph
-    getInfoPaneData(id) //get info for infoPane
+    // getInfoPaneData(id) //get info for infoPane
 }
 
 var player;
@@ -189,7 +189,7 @@ function playerManage(int){
 
 function playPreview(data){
     // console.log(data)
-    if(data.tracks[0] != undefined){
+    if(data.tracks[0] != undefined && data.tracks[0] != null){
 	var name = data.tracks[0].name;
 	var artist = data.tracks[0].artists[0].name;
 
@@ -211,7 +211,8 @@ function playPreview(data){
 	if(player != undefined){
 		player.pause()
 	}
-	var url = (data.tracks[0].preview_url)
+    var url = (data.tracks[0].preview_url)
+    console.log(url)
     player = new Audio(url);
 	// player.play();
     playerState = "pause"
@@ -219,10 +220,14 @@ function playPreview(data){
     }else{
         playerState = "play";
         playPause()
+        $("#preview_artist").html("");
+        $("#preview_song").html("");
+        player = undefined;
     }
 }
 
 function playPause(){
+    if(player != undefined){
 	if(playerState == "play"){
 		player.pause()
 		playerState = "pause";
@@ -233,6 +238,7 @@ function playPause(){
 		playerState = "play"
         // document.getElementById("playPauseImg").src = "assets/button_pause.png";
         $("#playSymbol").html("⏸")
-	}		
+    }		
+}
 
 }

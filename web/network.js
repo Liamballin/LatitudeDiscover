@@ -5,19 +5,19 @@ var network;
 
 	var idList = [];
 
-	function idInData(id){
-		// var d = network.DataSet.get();
-		// console.log(d);
-		var found = false;
-		for(i = 0; i < idList.length;i++){
-			if(id === idList[i]){
-				console.log("Found in dataaset")
-				found = true;
-			}
-		}
-		console.log("Not found; return false")
-		return found;
-	}
+	// function idInData(id){
+	// 	// var d = network.DataSet.get();
+	// 	// console.log(d);
+	// 	var found = false;
+	// 	for(i = 0; i < idList.length;i++){
+	// 		if(id === idList[i]){
+	// 			// console.log("Found in dataaset")
+	// 			found = true;
+	// 		}
+	// 	}
+	// 	console.log("Not found; return false/")
+	// 	return found;
+	// }
 
 	function renderNew(data){
 		var parse = []
@@ -28,7 +28,7 @@ var network;
 
 
 			if(!idList.includes(data[i].id)){
-				console.log(data[i])
+				// console.log(data[i])
 				var newOb = {};
 				newOb.id = data[i].id;
 				idList.push(data[i].id)
@@ -50,7 +50,7 @@ var network;
 				newOb.shape = "circularImage"
 				parse.push(newOb)
 			}else{
-				console.log("Already added!")
+				// console.log("Already added!")
 			}
 			var link = {from:newRoot, to: data[i].id}
 			edg.push(link)
@@ -113,9 +113,28 @@ var network;
                 }
             },
  
-			layout: {
-				improvedLayout: false
-            }
+			// layout: {
+			// 	improvedLayout: false
+			// }
+			layout:{
+				clusterThreshold: 10,
+			}
+			
+			// layout: {
+			// 	randomSeed: undefined,
+			// 	improvedLayout:true,
+			// 	hierarchical: {
+			// 		enabled:true,
+			// 		levelSeparation: 250,
+			// 		nodeSpacing: 200,
+			// 		treeSpacing: 200,
+			// 		blockShifting: false,
+			// 		edgeMinimization: false,
+			// 		parentCentralization: true,
+			// 		direction: 'RL', // UD, DU, LR, RL
+			// 		sortMethod: 'hubsize' // hubsize, directed
+			// 		}
+			// 	},
   
 		}
 		
@@ -134,7 +153,7 @@ var network;
 
             }else{
                 // console.log("Already exploded")
-                getInfoPaneData(clickedNodes[0].id)
+                // getInfoPaneData(clickedNodes[0].id)
             }
         }
 

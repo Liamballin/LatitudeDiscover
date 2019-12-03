@@ -148,7 +148,7 @@ cavnas{outline: none;}
 	font-size: 15pt;
 	padding-left:2vw;
 	vertical-align: bottom;
-	background-color: #191414;
+	background-color: #2C3134;
 	border-bottom: 2px solid #1DB954;
 	color:white;
 
@@ -156,10 +156,11 @@ cavnas{outline: none;}
 
 #search_random{
   position: absolute;
-  left:57vw;
-  top:2vh;
+  left:52vw;
+  top:2.4vh;
   user-select: none;
   cursor: pointer;
+  font-size: 20pt;
 }
 
 #searchResults{
