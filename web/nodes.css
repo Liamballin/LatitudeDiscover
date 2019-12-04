@@ -118,6 +118,11 @@ margin:auto;
     user-select: none; /* Standard */
 }
 
+#waveform{
+  width:100vw;
+  overflow: hidden;
+}
+
 input:focus {outline: none; }
 canvas:focus {outline: none; }
 cavnas{outline: none;}

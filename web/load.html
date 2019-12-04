@@ -1,8 +1,29 @@
 <html>
     <head>
+        <script src="https://unpkg.com/wavesurfer.js"></script>
 
     </head>
     <body>
-        <canvas width="100" height="100" id="nodeDance"></canvas>
+        <div id="waveform"></div>
+        <script>
+        var wavesurfer = WaveSurfer.create({
+            container:"#waveform",
+            waveColor: '#1DB9541E',
+            progressColor: '#1DB954',
+            cursorColor: '#1DB95400',
+            barWidth: 3,
+            barRadius: 3,
+            cursorWidth: 1,
+            height: 100,
+            barGap: 3
+        })
+        wavesurfer.load("https://p.scdn.co/mp3-preview/b91785cdcbe444e501914c9c1dcdc5d74e1822b8?cid=15db5a5f73854fbaa5d4da1d7cb15123")
+
+        wavesurfer.on('ready',()=>{
+            wavesurfer.play()
+        })
+
+
+</script>
     </body>
 </html>

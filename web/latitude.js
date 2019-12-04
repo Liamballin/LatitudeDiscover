@@ -178,6 +178,7 @@ function explodeNode(id){
 
 var player;
 var playerState = "pause";
+var playerSet = false;
 var intervals = [];
 
 function playerManage(int){
@@ -187,42 +188,89 @@ function playerManage(int){
     }
 }
 
+
+
 function playPreview(data){
     // console.log(data)
-    if(data.tracks[0] != undefined && data.tracks[0] != null){
+    if(playerSet){
+        player.destroy()
+        playerSet = false;
+    }
+    
+    
 	var name = data.tracks[0].name;
-	var artist = data.tracks[0].artists[0].name;
+    var artist = "";
+    data.tracks[0].artists[0].name;
 
+    for(art = 0; art < data.tracks[0].artists.length;art++){
+        if(art >= 1){
+            artist += ", "
+        }
+        artist += data.tracks[0].artists[art].name
+}
 	$("#preview_artist").html(artist);
     $("#preview_song").html(name);
     
     document.getElementById("preview_artist").onclick=function(){
-        console.log("Clocked")
         var win = window.open(data.tracks[0].external_urls.spotify, '_blank');
         win.focus();
     }
     document.getElementById("preview_song").onclick=function(){
-        console.log("Clocked")
         var win = window.open(data.tracks[0].external_urls.spotify, '_blank');
         win.focus();
     }
 
-
+    if(data.tracks[0].preview_url != null){
 	if(player != undefined){
 		player.pause()
 	}
     var url = (data.tracks[0].preview_url)
     console.log(url)
-    player = new Audio(url);
+    if(!url || url == undefined){
+        console.log("NO URL")
+        console.log(data)
+    }
+    $("#waveform").html("")
+    // player = new Audio(url);
+    player = WaveSurfer.create({
+            container:"#waveform",
+            waveColor: '#1DB9541E',
+            progressColor: '#1DB954',
+            cursorColor: '#1DB95400',
+            barWidth: 3,
+            barRadius: 3,
+            cursorWidth: 1,
+            height: 20,
+            barGap: 3,
+            responsize:true,
+            hideScrollbar:true
+        
+    })
+    player.load(url)
+    player.on('ready',()=>{
+        player.play()
+        playerSet = true;
+    })
+    player.on('finish',()=>{
+        playPause()
+    })
+
+
 	// player.play();
     playerState = "pause"
     playPause()
     }else{
         playerState = "play";
         playPause()
-        $("#preview_artist").html("");
+        // $("#preview_artist").html("");
+        // document.getElementById("preview_artist").onclick=function(){
+        //     console.log("Clocked")
+        //     var win = window.open(data.tracks[0].external_urls.spotify, '_blank');
+        //     win.focus();
+        // }
         $("#preview_song").html("");
-        player = undefined;
+        console.log("no url found apparently")
+        console.log(data)
     }
 }
 

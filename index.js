@@ -119,7 +119,7 @@ function getRandomArtist(){
 
 function getPreview(id){
     return new Promise((resolve,reject)=>{
-        spotifyApi.getArtistTopTracks(id, 'NZ').then(function(data) {
+        spotifyApi.getArtistTopTracks(id, 'US').then(function(data) {
             resolve(data.body);
         }, function(err) {
             reject(err);

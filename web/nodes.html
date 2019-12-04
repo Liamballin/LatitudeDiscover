@@ -8,6 +8,7 @@
 	<link href="https://fonts.googleapis.com/css?family=Nunito:400&display=swap" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="nodes.css" />
 	<script type="text/javascript" src="latitude.js"></script>
+	<script src="https://unpkg.com/wavesurfer.js"></script>
 
 </head>
 
@@ -20,11 +21,12 @@
 		<h1 id="playSymbol" onclick="playPause()">⏵</h1>
 		<h1 id="preview_artist"></h1>
 		<h2 id="preview_song"></h2>
+		<div id="waveform"></div>
 	</div>
 	</div>
 
 	<div id="search">
-		<input type="text" id="searchBar" placeholder="Search for an artist.."/>
+		<input type="search" id="searchBar" placeholder="Search for an artist.."/>
 		<h1 id="search_random" onclick="randomArtist()">🎲</h1>
 		<div id="searchResults"></div>
 	</div>
