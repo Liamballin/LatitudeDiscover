@@ -15,6 +15,13 @@ var spotifyApi = new SpotifyWebApi({
     clientSecret:"66ff80f04fab4d45800f5e304466e8ff"
     // redirectUri:"localhost/auth"
 })
+
+setInterval(()=>{
+    console.log("refresh token..")
+    spotifyApi
+  .clientCredentialsGrant()
+  .then(d => spotifyApi.setAccessToken(d.body.access_token));
+}, 600000)
 spotifyApi
   .clientCredentialsGrant()
   .then(d => spotifyApi.setAccessToken(d.body.access_token));
