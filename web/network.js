@@ -19,6 +19,13 @@ var network;
 	// 	return found;
 	// }
 
+	function fix(){
+		var groups = network.groups.groups;
+		for(i = 0; i < network.groups.groups.length;i++){
+			network.groups.groups[i].font.bold.color = network.groups.groups[i].color.border;
+		}
+	}
+
 	function renderNew(data){
 		var parse = []
 		var edg = []
@@ -33,14 +40,17 @@ var network;
 				newOb.id = data[i].id;
 				idList.push(data[i].id)
 				var genre;
-				if(data[i].genres[0] != undefined){
-					genre = data[i].genres[0]
-				}else{
-					genre="";
-				}
+			var group;
+			if(data[i].genres[0] != undefined){
+				genre = data[i].genres[0];
+				group = genre.replace(/\s+/g, '_');
+				genre = "<b>"+titleCase(genre)+"</b>"
+			}else{
+				genre="";
+			}
 				newOb.label = data[i].name+"\n"+genre;
 				
-					newOb.group = genre;
+				newOb.group = group
 				
 				if(data[i].images[0] != undefined){
 					newOb.image = data[i].images[0].url;
@@ -71,19 +81,33 @@ var network;
 			newOb.id = data[i].id;
 			idList.push(data[i].id)
 			var genre;
+			var group;
 			if(data[i].genres[0] != undefined){
-				genre = data[i].genres[0]
+				genre = data[i].genres[0];
+				group = genre.replace(/\s+/g, '_');
+				genre = "<b>"+titleCase(genre)+"</b>"
 			}else{
 				genre="";
 			}
 			newOb.label = data[i].name+"\n"+genre;
 			newOb.exploded = false;
+			newOb.group = group;
+
 			if(data[i].images[0] != undefined){
 				newOb.image = data[i].images[0].url;
 			}else{
 				newOb.image ="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcRyG1pllAcOZLO2j7zgS9IceYndTwS-BKpi7Gwam95nowy_a7sl"
 			}
 			newOb.shape = "circularImage"
+
+			// newOb.font = {
+			// 	bold:{
+			// 		color:"red"
+			// 	}
+			// }
+
+
+
 			parse.push(newOb)
 
 			var link = {from:0, to: data[i].id}
@@ -102,39 +126,33 @@ var network;
 		  edges: edges
 		};
 		var options = {
-            clickToUse:false,
+			clickToUse:false,
+			groups:{
+				useDefaultGroups:false
+			},
 			nodes: {
                 borderWidth:5,
                 font:{
                     color:"#FFFFFF",
                     face:"Nunito",
-                    align:"left",
-                    multi:true
+					align:"left",
+					background:"#191414E1",
+					multi:true,
+					bold:{
+						// color:"red",
+						size:10,
+						color:"#FFFFFF",
+						// color:"#1DB954"
+					}
                 }
             },
  
-			// layout: {
-			// 	improvedLayout: false
-			// }
 			layout:{
 				clusterThreshold: 10,
+				improvedLayout: false
+
 			}
 			
-			// layout: {
-			// 	randomSeed: undefined,
-			// 	improvedLayout:true,
-			// 	hierarchical: {
-			// 		enabled:true,
-			// 		levelSeparation: 250,
-			// 		nodeSpacing: 200,
-			// 		treeSpacing: 200,
-			// 		blockShifting: false,
-			// 		edgeMinimization: false,
-			// 		parentCentralization: true,
-			// 		direction: 'RL', // UD, DU, LR, RL
-			// 		sortMethod: 'hubsize' // hubsize, directed
-			// 		}
-			// 	},
   
 		}
 		
@@ -159,3 +177,10 @@ var network;
 
 		});
 	}
+
+
+	function titleCase(str) {
+		return str.toLowerCase().split(' ').map(function(word) {
+		  return (word.charAt(0).toUpperCase() + word.slice(1));
+		}).join(' ');
+	  }
