@@ -1,18 +1,17 @@
 const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000;
+const secrets = require("secrets.js")
 var SpotifyWebApi = require('spotify-web-api-node');
 
 app.use(express.static(__dirname + '/web'));
 app.use(express.static(__dirname + '/web/assets'));
 
 
-var client_id = "15db5a5f73854fbaa5d4da1d7cb15123"
-var client_secret = "66ff80f04fab4d45800f5e304466e8ff"
 
 var spotifyApi = new SpotifyWebApi({
-    clientId: "15db5a5f73854fbaa5d4da1d7cb15123",
-    clientSecret:"66ff80f04fab4d45800f5e304466e8ff"
+    clientId:process.env.CLIENT_ID,
+    clientSecret:process.env.CLIENT_SECRET
     // redirectUri:"localhost/auth"
 })
 
