@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 const port = process.env.PORT || 3000;
 // var secrets;
+const dotenv = require('dotenv');
+dotenv.config();
 var SpotifyWebApi = require('spotify-web-api-node');
 
 // var envi;
