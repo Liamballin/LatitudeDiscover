@@ -4,31 +4,14 @@ const port = process.env.PORT || 3000;
 // var secrets;
 const dotenv = require('dotenv');
 dotenv.config();
+console.log(process.env.CLIENT_ID)
+console.log(process.env.CLIENT_SECRET)
 var SpotifyWebApi = require('spotify-web-api-node');
-
-// var envi;
-
-// try{
-//     secrets = require("secrets.js")
-//     envi = "local"
-//     console.log(secrets)
-// }catch{
-//     envi = "prod"
-// }
 
 app.use(express.static(__dirname + '/web'));
 app.use(express.static(__dirname + '/web/assets'));
 
-// var id;
-// var secret;
 
-// if(envi == "local"){
-//     id = secrets.CLIENT_ID;
-//     secret = secrets.CLIENT_SECRET
-// }else{
-//     id = process.env.CLIENT_ID;
-//     secret = process.env.CLIENT_SECRET;
-// }
 
 var spotifyApi = new SpotifyWebApi({
     clientId: process.env.CLIENT_ID,
