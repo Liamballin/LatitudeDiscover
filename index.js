@@ -4,8 +4,6 @@ const port = process.env.PORT || 3000;
 // var secrets;
 const dotenv = require('dotenv');
 dotenv.config();
-console.log(process.env.CLIENT_ID)
-console.log(process.env.CLIENT_SECRET)
 var SpotifyWebApi = require('spotify-web-api-node');
 
 app.use(express.static(__dirname + '/web'));

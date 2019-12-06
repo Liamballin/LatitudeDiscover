@@ -5,6 +5,23 @@ body{
 
 }
 
+#intro{
+width:20vw;
+margin-left:40vw;
+position: absolute;
+}
+
+#intro_text{
+ color: white;
+ font-weight: lighter;
+ /* left:20vw; */
+ font-size: 3vw;
+ width:100vw;
+ text-align: center;
+ margin-top:50vh;
+ position: absolute;
+}
+
 ::selection {
     background: #19141486; /* WebKit/Blink Browsers */
   }

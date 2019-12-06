@@ -28,6 +28,9 @@ function randomArtist(){
 
 function startMap(data){
     document.getElementById("searchBar").value = data.name;
+    $("#intro").remove()
+    $("#intro_text").remove()
+
     $("#searchResults").html("")
     var startId = data.id
     getArtistInfo(data.id).then(()=>{
