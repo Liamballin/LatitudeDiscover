@@ -111,9 +111,9 @@ function getRandomArtist(){
 
         var search = getRandomSearch()
         spotifyApi.searchArtists(search).then(function(allData) {
-            console.log(allData)
+            // console.log(allData)
             var options = {limit:1,offset:getRandomInt(allData.body.artists.total)}
-            console.log(options)
+            // console.log(options)
             spotifyApi.searchArtists(search,options).then(art => {
                 resolve(art.body.artists.items[0])
             }, err=>{
